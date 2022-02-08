@@ -7,7 +7,7 @@ type Columns struct {
 	ColumnName      string `sql:"column_name"`
 	OrdinalPosition int    `sql:"ordinal_position"`
 	ColumnDefault   string `sql:"column_default"`
-	IsNullable      bool   `sql:"is_nullable"`
+	IsNullable      string `sql:"is_nullable"`
 	DataType        string `sql:"data_type"`
 }
 
@@ -16,6 +16,12 @@ type DescribeColumn struct {
 	Type    string `col:"Type"`
 	Extra   string `col:"Extra"`
 	Comment string `col:"Comment"`
+}
+
+type ColumnInfo struct {
+	DescribeColumn
+	IsNullable    bool
+	ColumnDefault string
 }
 
 type ShowTables struct {

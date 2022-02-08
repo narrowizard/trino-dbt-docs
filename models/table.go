@@ -2,7 +2,7 @@ package models
 
 type TableColumn struct {
 	Name        string
-	DataType    string `yaml:"data_type"`
+	Type        string `yaml:"type"`
 	Description string
 	Extra       string
 	Quote       bool

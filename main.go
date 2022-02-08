@@ -9,16 +9,17 @@ import (
 )
 
 func main() {
-	dsn := "https://user:password@host:port?custom_client=custom"
+	var catalog = "vdev"
+	var schema = "public"
+	dsn := fmt.Sprintf("https://user:password@host:port?custom_client=custom&catalog=%s&schema=%s", catalog, schema)
 	err := services.InitDB(dsn)
 	checkErr(err)
-	var catalog = "catalog"
-	var schema = "schema"
+
 	tables, err := services.GetTables(fmt.Sprintf("%s.%s", catalog, schema))
 	checkErr(err)
 	var transformedTables = make([]*models.Table, 0)
 	for _, v := range tables {
-		columns, err := services.GetColumns(fmt.Sprintf("%s.%s.%s", catalog, schema, v.TableName))
+		columns, err := services.GetColumns(v.TableName)
 		checkErr(err)
 		temp, err := services.TransformTable(v, columns)
 		checkErr(err)
