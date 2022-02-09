@@ -50,3 +50,7 @@ func TransformModelTable(table models.ShowTables, columns []models.ColumnInfo) (
 	}
 	return &data, nil
 }
+
+func TransformSeedTable(table models.ShowTables, columns []models.ColumnInfo) (*models.ModelTable, error) {
+	return TransformModelTable(table, columns)
+}

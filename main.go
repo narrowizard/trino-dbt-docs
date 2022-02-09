@@ -25,6 +25,7 @@ func main() {
 
 	var sourceTables = make([]*models.SourceTable, 0)
 	var modelTables = make([]*models.ModelTable, 0)
+	var seedTables = make([]*models.ModelTable, 0)
 	for _, v := range tables {
 		columns, err := services.GetColumns(v.TableName)
 		checkErr(err)
@@ -35,6 +36,12 @@ func main() {
 			checkErr(err)
 			modelTables = append(modelTables, temp)
 				fmt.Printf("Model table %s transformed\n", v.TableName)
+				continue
+			} else if tableType == plugins.TableTypeSeed {
+				temp, err := services.TransformModelTable(v, columns)
+				checkErr(err)
+				seedTables = append(seedTables, temp)
+				fmt.Printf("Seed table %s transformed\n", v.TableName)
 				continue
 			} else if tableType == plugins.TableTypeDeprecated {
 				fmt.Printf("Table %s deprecated\n", v.TableName)
@@ -47,7 +54,7 @@ func main() {
 		fmt.Printf("Source table %s transformed\n", v.TableName)
 	}
 	checkErr(err)
-	fmt.Printf("Start writing data to yaml, find %d sources, %d models\n", len(sourceTables), len(modelTables))
+	fmt.Printf("Start writing data to yaml, find %d sources, %d models, %d seeds\n", len(sourceTables), len(modelTables), len(seedTables))
 	err = services.WriteToYaml(&models.DbtSourceYamlFile{
 		Version: 2,
 		Sources: []models.DbtSourceDefination{{
@@ -55,7 +62,7 @@ func main() {
 			Tables: sourceTables,
 		}},
 		Models: modelTables,
-	}, "./dist/source.yml")
+		Seeds:  seedTables,
 	checkErr(err)
 }
 

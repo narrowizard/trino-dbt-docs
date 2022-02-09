@@ -37,6 +37,7 @@ type DbtSourceYamlFile struct {
 	Version int
 	Sources []DbtSourceDefination
 	Models  []*ModelTable
+	Seeds   []*ModelTable
 }
 
 type DbtSourceDefination struct {

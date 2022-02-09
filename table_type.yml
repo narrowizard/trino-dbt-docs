@@ -8,3 +8,6 @@ sources:
 deprecated:
   - deprecated1
   - deprecated2
+seeds:
+  - seed1
+  - seed2

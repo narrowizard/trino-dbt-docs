@@ -11,6 +11,7 @@ type TableType string
 const (
 	TableTypeSource     TableType = "source"
 	TableTypeModel      TableType = "model"
+	TableTypeSeed       TableType = "seed"
 	TableTypeDeprecated TableType = "deprecated"
 )
 
@@ -20,6 +21,7 @@ type TableTypeSchema struct {
 	Version    int      `yaml:"version"`
 	Models     []string `yaml:"models"`
 	Sources    []string `yaml:"sources"`
+	Seeds      []string `yaml:"seeds"`
 	Deprecated []string `yaml:"deprecated"`
 }
 
@@ -42,6 +44,9 @@ func ReadTableTypeMapping(filename string) (TableTypeMapping, error) {
 	}
 	for _, v := range schema.Deprecated {
 		dest[v] = TableTypeDeprecated
+	}
+	for _, v := range schema.Seeds {
+		dest[v] = TableTypeSeed
 	}
 	return dest, nil
 }
