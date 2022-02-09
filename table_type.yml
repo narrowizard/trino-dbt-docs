@@ -5,3 +5,6 @@ models:
 sources:
   - source1
   - source2
+deprecated:
+  - deprecated1
+  - deprecated2

@@ -29,16 +29,22 @@ func main() {
 		columns, err := services.GetColumns(v.TableName)
 		checkErr(err)
 		var tableType, ok = tableTypes[v.TableName]
-		if ok && tableType == plugins.TableTypeModel {
+		if ok {
+			if tableType == plugins.TableTypeModel {
 			temp, err := services.TransformModelTable(v, columns)
 			checkErr(err)
 			modelTables = append(modelTables, temp)
-		} else {
+				fmt.Printf("Model table %s transformed\n", v.TableName)
+				continue
+			} else if tableType == plugins.TableTypeDeprecated {
+				fmt.Printf("Table %s deprecated\n", v.TableName)
+				continue
+			}
+		}
 			temp, err := services.TransformSourceTable(v, columns)
 			checkErr(err)
 			sourceTables = append(sourceTables, temp)
-		}
-		fmt.Printf("Table %s transformed\n", v.TableName)
+		fmt.Printf("Source table %s transformed\n", v.TableName)
 	}
 	checkErr(err)
 	fmt.Printf("Start writing data to yaml, find %d sources, %d models\n", len(sourceTables), len(modelTables))

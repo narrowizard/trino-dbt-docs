@@ -9,16 +9,18 @@ import (
 type TableType string
 
 const (
-	TableTypeSource TableType = "source"
-	TableTypeModel  TableType = "model"
+	TableTypeSource     TableType = "source"
+	TableTypeModel      TableType = "model"
+	TableTypeDeprecated TableType = "deprecated"
 )
 
 type TableTypeMapping map[string]TableType
 
 type TableTypeSchema struct {
-	Version int      `yaml:"version"`
-	Models  []string `yaml:"models"`
-	Sources []string `yaml:"sources"`
+	Version    int      `yaml:"version"`
+	Models     []string `yaml:"models"`
+	Sources    []string `yaml:"sources"`
+	Deprecated []string `yaml:"deprecated"`
 }
 
 func ReadTableTypeMapping(filename string) (TableTypeMapping, error) {
@@ -37,6 +39,9 @@ func ReadTableTypeMapping(filename string) (TableTypeMapping, error) {
 	}
 	for _, v := range schema.Sources {
 		dest[v] = TableTypeSource
+	}
+	for _, v := range schema.Deprecated {
+		dest[v] = TableTypeDeprecated
 	}
 	return dest, nil
 }
