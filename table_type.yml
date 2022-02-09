@@ -1,0 +1,7 @@
+version: 1
+models:
+  - model1
+  - model2
+sources:
+  - source1
+  - source2

@@ -11,18 +11,35 @@ type TableColumn struct {
 	Meta        map[string]interface{}
 }
 
-type Table struct {
+type SourceTable struct {
 	Name        string
 	Description string
+	Columns     []TableColumn
+}
+
+type ModelTableDocs struct {
+	Show bool `yaml:"show"`
+}
+
+type ModelTableConfig struct {
+}
+
+type ModelTable struct {
+	Name        string
+	Description string
+	Docs        ModelTableDocs
+	Config      ModelTableConfig
+	Tests       []string
 	Columns     []TableColumn
 }
 
 type DbtSourceYamlFile struct {
 	Version int
 	Sources []DbtSourceDefination
+	Models  []*ModelTable
 }
 
 type DbtSourceDefination struct {
 	Name   string
-	Tables []*Table
+	Tables []*SourceTable
 }
