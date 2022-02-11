@@ -25,7 +25,7 @@ func main() {
 
 	var sourceTables = make([]*models.SourceTable, 0)
 	var modelTables = make([]*models.ModelTable, 0)
-	var seedTables = make([]*models.ModelTable, 0)
+	var seedTables = make([]*models.SeedTable, 0)
 	for _, v := range tables {
 		columns, err := services.GetColumns(v.TableName)
 		checkErr(err)
@@ -38,7 +38,7 @@ func main() {
 				fmt.Printf("Model table %s transformed\n", v.TableName)
 				continue
 			} else if tableType == plugins.TableTypeSeed {
-				temp, err := services.TransformModelTable(v, columns)
+				temp, err := services.TransformSeedTable(v, columns)
 				checkErr(err)
 				seedTables = append(seedTables, temp)
 				fmt.Printf("Seed table %s transformed\n", v.TableName)

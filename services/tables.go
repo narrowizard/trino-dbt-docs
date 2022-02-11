@@ -51,6 +51,32 @@ func TransformModelTable(table models.ShowTables, columns []models.ColumnInfo) (
 	return &data, nil
 }
 
-func TransformSeedTable(table models.ShowTables, columns []models.ColumnInfo) (*models.ModelTable, error) {
-	return TransformModelTable(table, columns)
+func TransformSeedTable(table models.ShowTables, columns []models.ColumnInfo) (*models.SeedTable, error) {
+	var data = models.SeedTable{
+		Name:    table.TableName,
+		Columns: make([]models.TableColumn, 0),
+		Docs: models.ModelTableDocs{
+			Show: true,
+		},
+		Config: models.SeedConfig{
+			QuoteColumns: true,
+			ColumnTypes:  make(map[string]string),
+		},
+	}
+	for _, v := range columns {
+		var tests = make([]string, 0)
+		if !v.IsNullable {
+			tests = append(tests, "not_null")
+		}
+		var column = models.TableColumn{
+			Name:        v.Column,
+			Type:        v.Type,
+			Description: v.Comment,
+			Extra:       v.Extra,
+			Tests:       tests,
+		}
+		data.Columns = append(data.Columns, column)
+		data.Config.ColumnTypes[v.Column] = v.Type
+	}
+	return &data, nil
 }

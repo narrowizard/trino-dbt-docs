@@ -37,10 +37,24 @@ type DbtSourceYamlFile struct {
 	Version int
 	Sources []DbtSourceDefination
 	Models  []*ModelTable
-	Seeds   []*ModelTable
+	Seeds   []*SeedTable
 }
 
 type DbtSourceDefination struct {
 	Name   string
 	Tables []*SourceTable
+}
+
+type SeedConfig struct {
+	QuoteColumns bool              `yaml:"quote_columns"`
+	ColumnTypes  map[string]string `yaml:"column_types"`
+}
+
+type SeedTable struct {
+	Name        string
+	Description string
+	Docs        ModelTableDocs
+	Tests       []string
+	Columns     []TableColumn
+	Config      SeedConfig
 }
