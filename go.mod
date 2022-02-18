@@ -3,6 +3,7 @@ module github.com/narrowizard/trino-dbt-docs
 go 1.17
 
 require (
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/narrowizard/tinysql v0.0.0-20151205123749-ebb0dee5d07c
 	github.com/trinodb/trino-go-client v0.300.0
 	gopkg.in/yaml.v2 v2.4.0
